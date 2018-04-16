@@ -3,3 +3,5 @@
 /dist
 /*.dll
 /*.so
+/The Maze Game/build/
+/The Maze Game/dist/
