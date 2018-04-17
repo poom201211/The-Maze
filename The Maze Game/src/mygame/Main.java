@@ -57,7 +57,10 @@ public class Main extends SimpleApplication implements ActionListener{
         player.setGravity(new Vector3f(0,-30f,0));
         player.setPhysicsLocation(new Vector3f(0, 10, 0));
         
+        Spatial monster = assetManager.loadModel("Models/Monster/MrHumpty.j3o");
+        
         rootNode.attachChild(scene);
+        rootNode.attachChild(monster);
         bulletAppState.getPhysicsSpace().add(landscape);
         bulletAppState.getPhysicsSpace().add(player);
     }
