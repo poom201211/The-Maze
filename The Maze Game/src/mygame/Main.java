@@ -10,6 +10,8 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
@@ -22,8 +24,8 @@ import com.jme3.scene.Spatial;
 public class Main extends SimpleApplication implements ActionListener{
 
     private BulletAppState bulletAppState;
-    private Spatial scene;
-    private RigidBodyControl landscape;
+    private Spatial walls;
+    private RigidBodyControl landscapeWall;
     private CharacterControl player;
     private Vector3f walkDirection = new Vector3f();
     private boolean left = false, right = false, up = false, down = false;
@@ -44,11 +46,13 @@ public class Main extends SimpleApplication implements ActionListener{
         
         keySet();
         
-        scene = assetManager.loadModel("Scenes/MazeTerrian.j3o");
+        walls = assetManager.loadModel("Models/Walls/maze walls.j3o");
+        CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
+        landscapeWall = new RigidBodyControl(sceneWall, 0);
+        walls.addControl(landscapeWall);
+        Material wallTexture = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+        walls.setMaterial(wallTexture);
         
-        CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(scene);
-        landscape = new RigidBodyControl(sceneShape, 0);
-        scene.addControl(landscape);
         
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
@@ -57,11 +61,17 @@ public class Main extends SimpleApplication implements ActionListener{
         player.setGravity(new Vector3f(0,-30f,0));
         player.setPhysicsLocation(new Vector3f(0, 10, 0));
         
-        Spatial monster = assetManager.loadModel("Models/Monster/MrHumpty.j3o");
         
-        rootNode.attachChild(scene);
-        rootNode.attachChild(monster);
-        bulletAppState.getPhysicsSpace().add(landscape);
+//        Spatial monster = assetManager.loadModel("Models/Monster/MrHumpty.obj");
+//        DirectionalLight sun = new DirectionalLight();
+//        sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
+//        rootNode.addLight(sun);
+       
+//        rootNode.attachChild(monster);
+
+        
+        rootNode.attachChild(walls);
+        bulletAppState.getPhysicsSpace().add(landscapeWall);
         bulletAppState.getPhysicsSpace().add(player);
     }
 
