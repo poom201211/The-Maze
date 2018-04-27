@@ -11,10 +11,13 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.PointLight;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
+import com.sun.prism.paint.Color;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -28,10 +31,12 @@ public class Main extends SimpleApplication implements ActionListener{
     private RigidBodyControl landscapeWall;
     private CharacterControl player;
     private Vector3f walkDirection = new Vector3f();
-    private boolean left = false, right = false, up = false, down = false;
+    private boolean left = false, right = false, up = false, down = false, run = false;
     
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
+    private PointLight flashlight;
+    private float speed = 0.2f;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -50,8 +55,6 @@ public class Main extends SimpleApplication implements ActionListener{
         CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
         landscapeWall = new RigidBodyControl(sceneWall, 0);
         walls.addControl(landscapeWall);
-        Material wallTexture = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
-        walls.setMaterial(wallTexture);
         
         
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
@@ -61,6 +64,9 @@ public class Main extends SimpleApplication implements ActionListener{
         player.setGravity(new Vector3f(0,-30f,0));
         player.setPhysicsLocation(new Vector3f(0, 10, 0));
         
+        flashlight = new PointLight(camDir, ColorRGBA.White, 20);
+        
+       
         
 //        Spatial monster = assetManager.loadModel("Models/Monster/MrHumpty.obj");
 //        DirectionalLight sun = new DirectionalLight();
@@ -71,14 +77,15 @@ public class Main extends SimpleApplication implements ActionListener{
 
         
         rootNode.attachChild(walls);
+        rootNode.addLight(flashlight);
         bulletAppState.getPhysicsSpace().add(landscapeWall);
         bulletAppState.getPhysicsSpace().add(player);
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        camDir.set(cam.getDirection()).multLocal(0.6f);
-        camLeft.set(cam.getLeft()).multLocal(0.4f);
+        camDir.set(cam.getDirection()).multLocal(speed);
+        camLeft.set(cam.getLeft()).multLocal(speed/2);
         walkDirection.set(0, 0, 0);
         if (left) {
             walkDirection.addLocal(camLeft);
@@ -92,8 +99,13 @@ public class Main extends SimpleApplication implements ActionListener{
         if (down) {
             walkDirection.addLocal(camDir.negate());
         }
+       
+        
         player.setWalkDirection(walkDirection);
         cam.setLocation(player.getPhysicsLocation());
+        flashlight.setPosition(new Vector3f(cam.getLocation()));
+        
+        
     }
 
     @Override
@@ -107,12 +119,14 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("Run", new KeyTrigger(KeyInput.KEY_LSHIFT));
         
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
         inputManager.addListener(this, "Up");
         inputManager.addListener(this, "Down");
         inputManager.addListener(this, "Jump");
+        inputManager.addListener(this, "Run");
         
     }
     
