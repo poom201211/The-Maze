@@ -18,6 +18,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
 import com.sun.prism.paint.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -36,7 +39,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
     private PointLight flashlight;
-    private float speed = 0.2f;
+    private float speed = 0.2f; 
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -45,13 +48,19 @@ public class Main extends SimpleApplication implements ActionListener{
 
     @Override
     public void simpleInitApp() {
-        
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         
         keySet();
         
-        walls = assetManager.loadModel("Models/Walls/maze walls.j3o");
+        // Generate randomized maze maps
+        String[] mapLocation = new String[3];
+        mapLocation[0] = "Models/Walls/maze walls.j3o";
+        mapLocation[1] = "Models/Walls/maze walls2.j3o";
+        mapLocation[2] = "Models/Walls/maze walls3.j3o";
+        Random random = new Random();
+        walls = assetManager.loadModel(mapLocation[random.nextInt(2)]);
+        
         CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
         landscapeWall = new RigidBodyControl(sceneWall, 0);
         walls.addControl(landscapeWall);
@@ -62,20 +71,11 @@ public class Main extends SimpleApplication implements ActionListener{
         player.setJumpSpeed(20);
         player.setFallSpeed(30);
         player.setGravity(new Vector3f(0,-30f,0));
-        player.setPhysicsLocation(new Vector3f(0, 10, 0));
+        player.setPhysicsLocation(new Vector3f(10, 10, 0));
         
         flashlight = new PointLight(camDir, ColorRGBA.White, 20);
-        
-       
-        
-//        Spatial monster = assetManager.loadModel("Models/Monster/MrHumpty.obj");
-//        DirectionalLight sun = new DirectionalLight();
-//        sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
-//        rootNode.addLight(sun);
-       
-//        rootNode.attachChild(monster);
-
-        
+            
+        // Initialize all nodes
         rootNode.attachChild(walls);
         rootNode.addLight(flashlight);
         bulletAppState.getPhysicsSpace().add(landscapeWall);
