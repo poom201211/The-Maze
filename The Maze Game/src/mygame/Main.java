@@ -10,22 +10,17 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
-import com.sun.prism.paint.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
- * This is the Main Class of your Game. You should only do initialization here.
- * Move your Logic into AppStates or Controls
- * @author normenhansen
+ * Main class for logical code.
+ * @author Thanapoom Rattanathumawat
+ * @author Poonnanun Poonnopathum
  */
 public class Main extends SimpleApplication implements ActionListener{
 
@@ -60,12 +55,12 @@ public class Main extends SimpleApplication implements ActionListener{
         mapLocation[2] = "Models/Walls/maze walls3.j3o";
         Random random = new Random();
         walls = assetManager.loadModel(mapLocation[random.nextInt(2)]);
-        
+       
+        // Added class for object collision
         CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
         landscapeWall = new RigidBodyControl(sceneWall, 0);
         walls.addControl(landscapeWall);
-        
-        
+       
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(20);
