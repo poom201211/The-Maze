@@ -5,11 +5,56 @@
     <useStyles filename="Interface/style/optionPanel.xml"/>
     <screen id="OptionScreen" controller="mygame.gui.OptionController">
         <layer id="Start" childLayout="absolute" backgroundImage="Textures/background/main-background.png">
-            <control name="label" id="title" width="10%" x="45%" y="5%" text="Option" font="aurulent-sans-16.fnt" height="5%"/>
+            <image filename="Textures/background/option.png" childLayout="center" width="30%" x="35%" y="3%" height="15%">
+            </image>
             <panel id="optionPanel" childLayout="absolute" width="80%" x="10%" y="20%" style="mainPanel" height="70%">
-                <panel id="musicPanel" childLayout="absolute" width="30%" x="10" y="10" style="invisPanel" height="10%">
-                    <control name="checkbox" id="music" width="8%" x="10%" backgoundColor="#FFFFFF" y="10%" height="50%"/>
+                
+                <panel id="musicPanel" childLayout="absolute" width="30%" x="10%" y="10%" style="invisPanel" height="10%">
+                    <control name="checkbox" id="music" width="7%" x="25%" backgoundColor="#FFFFFF" y="30%" height="40%"/>
+                    <image filename="Textures/background/music.png" childLayout="center" width="50%" x="30%" y="10%" height="80%">
+                    </image>
                 </panel>
+                
+                <panel id="soundEffectPanel" childLayout="absolute" width="30%" x="50%" y="10%" style="invisPanel" height="10%">
+                    <control name="checkbox" id="soundEffect" width="7%" x="25%" backgoundColor="#FFFFFF" y="30%" height="40%"/>
+                    <image filename="Textures/background/soundEffect.png" childLayout="center" width="70%" x="35%" y="10%" height="80%">
+                    </image>
+                </panel>
+                
+                <panel id="VSyncPanel" childLayout="absolute" width="30%" x="10%" y="25%" style="invisPanel" height="10%">
+                    <control name="checkbox" id="vSync" width="7%" x="25%" backgoundColor="#FFFFFF" y="30%" height="40%"/>
+                    <image filename="Textures/background/v-sync.png" childLayout="center" width="50%" x="30%" y="10%" height="80%">
+                    </image>
+                </panel>
+                
+                <panel id="FullScreenPanel" childLayout="absolute" width="30%" x="10%" y="40%" style="invisPanel" height="10%">
+                    <control name="checkbox" id="fullScreen" width="7%" x="25%" backgoundColor="#FFFFFF" y="30%" height="40%"/>
+                    <image filename="Textures/background/full-screen.png" childLayout="center" width="65%" x="35%" y="10%" height="80%">
+                    </image>
+                </panel>
+                
+                <panel id="ResolutionPanel" childLayout="absolute" width="70%" x="10%" y="55%" style="invisPanel" height="10%">
+                    <control name="dropDown" id="resolution" width="30%" x="40%" backgoundColor="#FFFFFF" y="30%"/>
+                    <image filename="Textures/background/resolusion.png" childLayout="center" width="30%" x="10%" y="10%" height="80%">
+                    </image>
+                </panel>
+                
+                <panel id="AntiPanel" childLayout="absolute" width="70%" x="10%" y="70%" style="invisPanel" height="10%">
+                    <control name="dropDown" id="anti" width="10%" x="53%" backgoundColor="#FFFFFF" y="30%"/>
+                    <image filename="Textures/background/aasing.png" childLayout="center" width="40%" x="10%" y="10%" height="80%">
+                    </image>
+                </panel>
+                
+                <panel id="ButtonPanel" childLayout="absolute" width="30%" x="60%" y="85%" style="invisPanel" height="10%">
+                    <image filename="Textures/background/apply.png" childLayout="center" width="40%" x="10%" y="10%" height="80%">
+                        <interact onClick="applySetting()" /> 
+                    </image>
+                    <image filename="Textures/background/cancel.png" childLayout="center" width="40%" x="60%" y="10%" height="80%">
+                        <interact onClick="cancelSetting()" /> 
+                    </image>
+                </panel>
+                
+                
             </panel>
         </layer>
     </screen>

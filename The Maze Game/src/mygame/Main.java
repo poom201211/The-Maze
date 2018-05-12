@@ -65,7 +65,7 @@ public class Main extends SimpleApplication implements ActionListener{
         newSettings.setFullscreen(true);
         newSettings.put("Title", "The Maze");
         newSettings.put("VSync", true);
-        newSettings.put("Samples", 8); // Anti-Aliasing
+        newSettings.put("Samples", 4); // Anti-Aliasing
 
         app.setSettings(newSettings);
         app.start();
@@ -138,6 +138,10 @@ public class Main extends SimpleApplication implements ActionListener{
 //        gameScreenController.createMinimap(this, walls);
     }
     
+    public void mainMenu(){
+        nifty.gotoScreen("StartScreen");
+    }
+    
     public void optionInit(){
         nifty.gotoScreen("OptionScreen");
     }
@@ -166,7 +170,9 @@ public class Main extends SimpleApplication implements ActionListener{
             cam.setLocation(player.getPhysicsLocation());
             flashlight.setPosition(new Vector3f(cam.getLocation()));
         }
-        
+        if(nifty.getCurrentScreen().getScreenId().equals("OptionScreen")){
+            optionController.setEnableRes();
+        }
         
         
     }

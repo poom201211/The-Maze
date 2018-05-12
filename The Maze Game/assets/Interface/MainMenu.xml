@@ -4,7 +4,8 @@
     <useStyles filename="nifty-default-styles.xml"/>
     <screen id="StartScreen" controller="mygame.gui.MainMenuController">
         <layer id="GLayer0" childLayout="absolute" backgroundImage="Textures/background/main-background.png">
-            <control name="label" id="title" width="10%" x="45%" y="5%" text="The Maze" font="aurulent-sans-16.fnt" height="5%"/>
+            <image filename="Textures/background/mazelogo.png" childLayout="center" width="50%" x="25%" y="10%" height="30%">
+            </image>
             <image filename="Textures/background/start.png" childLayout="center" width="16%" x="42%" y="50%" height="8%">
                 <interact onClick="startGame()" />
             </image>
