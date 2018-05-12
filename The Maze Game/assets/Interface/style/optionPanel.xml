@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
+    <style id="mainPanel">
+        <attributes backgroundImage="Interface/style/pics/optionPanel.png" />  
+    </style>
+    
+    <style id="invisPanel">
+        <attributes backgroundColor="#00000000" />
+    </style>
+    
+</nifty-styles>

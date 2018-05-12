@@ -5,13 +5,15 @@
     <screen id="StartScreen" controller="mygame.gui.MainMenuController">
         <layer id="GLayer0" childLayout="absolute" backgroundImage="Textures/background/main-background.png">
             <control name="label" id="title" width="10%" x="45%" y="5%" text="The Maze" font="aurulent-sans-16.fnt" height="5%"/>
-            <control name="button" id="startButton" childLayout="center" width="111px" x="89" y="181" label="Start" height="35px">
+            <image filename="Textures/background/start.png" childLayout="center" width="16%" x="42%" y="50%" height="8%">
                 <interact onClick="startGame()" />
-            </control>
-            <control name="button" id="optionButton" childLayout="center" width="106px" x="86" y="264" label="Option" height="32px"/>
-            <control name="button" id="exitButton" childLayout="center" width="111px" x="90px" y="340px" label="Exit" height="33px">
+            </image>
+            <image filename="Textures/background/option.png" childLayout="center" width="16%" x="42%" y="60%" height="8%">
+                <interact onClick="option()" />
+            </image>
+            <image filename="Textures/background/exit.png" childLayout="center" width="16%" x="42%" y="70%" height="8%">
                 <interact onClick="quitGame()" />
-            </control>
+            </image>
         </layer>
     </screen>
 </nifty>

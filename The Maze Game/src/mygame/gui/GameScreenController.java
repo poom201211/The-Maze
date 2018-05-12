@@ -15,6 +15,7 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.Main;
 import mygame.MinimapUtil;
 
 /**
@@ -23,8 +24,7 @@ import mygame.MinimapUtil;
  */
 public class GameScreenController extends AbstractAppState implements ScreenController {
     
-     private Application app;
-    private AppStateManager appStateManager;
+    private Main main;
     private Nifty nifty;
     private Screen screen;
     
@@ -46,6 +46,10 @@ public class GameScreenController extends AbstractAppState implements ScreenCont
     @Override
     public void onEndScreen() {
         
+    }
+    
+    public void setMain(Main main){
+        this.main = main;
     }
     
     public void createMinimap(SimpleApplication app,Spatial scene) {

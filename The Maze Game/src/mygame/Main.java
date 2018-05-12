@@ -18,9 +18,12 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Random;
 import mygame.gui.GameScreenController;
 import mygame.gui.MainMenuController;
+import mygame.gui.OptionController;
 
 /**
  * Main class for logical code.
@@ -43,13 +46,28 @@ public class Main extends SimpleApplication implements ActionListener{
     
     private GameScreenController gameScreenController;
     private MainMenuController mainMenuController;
+    private OptionController optionController;
     private Nifty nifty;
     private NiftyJmeDisplay niftyDisplay;
     
     private boolean start = false;
     
     public static void main(String[] args) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int)screenSize.getWidth();
+        int screenHeight = (int)screenSize.getHeight();
         Main app = new Main();
+        
+        app.setShowSettings(false);
+        AppSettings newSettings = new AppSettings(true);
+        newSettings.put("Width", screenWidth);
+        newSettings.put("Height", screenHeight);
+        newSettings.setFullscreen(true);
+        newSettings.put("Title", "The Maze");
+        newSettings.put("VSync", true);
+        newSettings.put("Samples", 8); // Anti-Aliasing
+
+        app.setSettings(newSettings);
         app.start();
     }
 
@@ -60,6 +78,7 @@ public class Main extends SimpleApplication implements ActionListener{
         nifty = niftyDisplay.getNifty();
         nifty.addXml("Interface/MainMenu.xml");
         nifty.addXml("Interface/GameScreen.xml");
+        nifty.addXml("Interface/OptionScreen.xml");
         nifty.gotoScreen("StartScreen");
         
         guiViewPort.addProcessor(niftyDisplay);
@@ -68,7 +87,11 @@ public class Main extends SimpleApplication implements ActionListener{
         
         mainMenuController = (MainMenuController) nifty.getScreen("StartScreen").getScreenController();
         mainMenuController.setMain(this);
-        
+        gameScreenController = (GameScreenController) nifty.getScreen("GameScreen").getScreenController();
+        gameScreenController.setMain(this);
+        optionController = (OptionController) nifty.getScreen("OptionScreen").getScreenController();
+        optionController.setMain(this);
+        optionController.setSetting(this.settings);
     }
     
     public void gameInit(){
@@ -111,8 +134,12 @@ public class Main extends SimpleApplication implements ActionListener{
         
         start = true;
         
-        nifty.gotoScreen("StartGame");
+        nifty.gotoScreen("GameScreen");
 //        gameScreenController.createMinimap(this, walls);
+    }
+    
+    public void optionInit(){
+        nifty.gotoScreen("OptionScreen");
     }
     
     @Override

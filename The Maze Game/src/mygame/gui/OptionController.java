@@ -6,6 +6,7 @@
 package mygame.gui;
 
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -15,19 +16,17 @@ import mygame.Main;
  *
  * @author poon_
  */
-public class MainMenuController extends AbstractAppState implements ScreenController{
-
+public class OptionController extends AbstractAppState implements ScreenController {
+    
     private Nifty nifty;
     private Screen screen;
     private Main main;
-    
-    public MainMenuController(){
-    }
+    private AppSettings setting;
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
-        this.screen = screen;
+        this.screen = screen; 
     }
 
     @Override
@@ -44,15 +43,12 @@ public class MainMenuController extends AbstractAppState implements ScreenContro
         this.main = main;
     }
     
-    public void quitGame(){
-        System.exit(1);
+    public void setSetting(AppSettings setting){
+        this.setting = setting;
     }
     
-    public void startGame(){
-        main.gameInit();
+    public void applySetting(){
+        
     }
     
-    public void option(){
-        main.optionInit();
-    }
 }
