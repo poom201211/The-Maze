@@ -13,9 +13,14 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
+import com.jme3.system.AppSettings;
+import de.lessvoid.nifty.Nifty;
 import java.util.Random;
+import mygame.gui.GameScreenController;
+import mygame.gui.MainMenuController;
 
 /**
  * Main class for logical code.
@@ -36,6 +41,13 @@ public class Main extends SimpleApplication implements ActionListener{
     private PointLight flashlight;
     private float speed = 0.2f; 
     
+    private GameScreenController gameScreenController;
+    private MainMenuController mainMenuController;
+    private Nifty nifty;
+    private NiftyJmeDisplay niftyDisplay;
+    
+    private boolean start = false;
+    
     public static void main(String[] args) {
         Main app = new Main();
         app.start();
@@ -43,8 +55,29 @@ public class Main extends SimpleApplication implements ActionListener{
 
     @Override
     public void simpleInitApp() {
+        
+        niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
+        nifty = niftyDisplay.getNifty();
+        nifty.addXml("Interface/MainMenu.xml");
+        nifty.addXml("Interface/GameScreen.xml");
+        nifty.gotoScreen("StartScreen");
+        
+        guiViewPort.addProcessor(niftyDisplay);
+
+        flyCam.setEnabled(false);
+        
+        mainMenuController = (MainMenuController) nifty.getScreen("StartScreen").getScreenController();
+        mainMenuController.setMain(this);
+        
+    }
+    
+    public void gameInit(){
+
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
+        
+        inputManager.setCursorVisible(false);
+        flyCam.setEnabled(true);
         
         keySet();
         
@@ -75,30 +108,38 @@ public class Main extends SimpleApplication implements ActionListener{
         rootNode.addLight(flashlight);
         bulletAppState.getPhysicsSpace().add(landscapeWall);
         bulletAppState.getPhysicsSpace().add(player);
+        
+        start = true;
+        
+        nifty.gotoScreen("StartGame");
+//        gameScreenController.createMinimap(this, walls);
     }
-
+    
     @Override
     public void simpleUpdate(float tpf) {
-        camDir.set(cam.getDirection()).multLocal(speed);
-        camLeft.set(cam.getLeft()).multLocal(speed/2);
-        walkDirection.set(0, 0, 0);
-        if (left) {
-            walkDirection.addLocal(camLeft);
-        }
-        if (right) {
-            walkDirection.addLocal(camLeft.negate());
-        }
-        if (up) {
-            walkDirection.addLocal(camDir);
-        }
-        if (down) {
-            walkDirection.addLocal(camDir.negate());
-        }
+        if(start){
+            camDir.set(cam.getDirection()).multLocal(speed);
+            camLeft.set(cam.getLeft()).multLocal(speed/2);
+            walkDirection.set(0, 0, 0);
+            if (left) {
+                walkDirection.addLocal(camLeft);
+            }
+            if (right) {
+                walkDirection.addLocal(camLeft.negate());
+            }
+            if (up) {
+                walkDirection.addLocal(camDir);
+            }
+            if (down) {
+                walkDirection.addLocal(camDir.negate());
+            }
        
         
-        player.setWalkDirection(walkDirection);
-        cam.setLocation(player.getPhysicsLocation());
-        flashlight.setPosition(new Vector3f(cam.getLocation()));
+            player.setWalkDirection(walkDirection);
+            cam.setLocation(player.getPhysicsLocation());
+            flashlight.setPosition(new Vector3f(cam.getLocation()));
+        }
+        
         
         
     }
