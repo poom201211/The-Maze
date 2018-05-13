@@ -1,6 +1,8 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -8,8 +10,10 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -17,6 +21,7 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
+
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -50,7 +55,12 @@ public class Main extends SimpleApplication implements ActionListener{
     private Nifty nifty;
     private NiftyJmeDisplay niftyDisplay;
     
+    private AudioNode bgMusic;
+    private AudioNode clickSound;
+    public boolean music = true, soundEffect = true;
+    
     private boolean start = false;
+    
     
     public static void main(String[] args) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,6 +95,9 @@ public class Main extends SimpleApplication implements ActionListener{
 
         flyCam.setEnabled(false);
         
+        audioInit();
+        keySet();
+        
         mainMenuController = (MainMenuController) nifty.getScreen("StartScreen").getScreenController();
         mainMenuController.setMain(this);
         gameScreenController = (GameScreenController) nifty.getScreen("GameScreen").getScreenController();
@@ -92,6 +105,7 @@ public class Main extends SimpleApplication implements ActionListener{
         optionController = (OptionController) nifty.getScreen("OptionScreen").getScreenController();
         optionController.setMain(this);
         optionController.setSetting(this.settings);
+        optionController.setMute(music , soundEffect);
     }
     
     public void gameInit(){
@@ -102,7 +116,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.setCursorVisible(false);
         flyCam.setEnabled(true);
         
-        keySet();
+        
         
         // Generate randomized maze maps
         String[] mapLocation = new String[3];
@@ -139,10 +153,17 @@ public class Main extends SimpleApplication implements ActionListener{
     }
     
     public void mainMenu(){
+        if(!music)bgMusic.stop();
+        else bgMusic.play();
+        
+        if(!soundEffect)clickSound.stop();
+        else clickSound.play();
         nifty.gotoScreen("StartScreen");
+        
     }
     
     public void optionInit(){
+        optionController.setMute(music , soundEffect);
         nifty.gotoScreen("OptionScreen");
     }
     
@@ -164,8 +185,13 @@ public class Main extends SimpleApplication implements ActionListener{
             if (down) {
                 walkDirection.addLocal(camDir.negate());
             }
-       
-        
+            if (run) {
+                speed = 0.25f;
+                
+            }else{
+                speed = 0.2f;
+             
+            }
             player.setWalkDirection(walkDirection);
             cam.setLocation(player.getPhysicsLocation());
             flashlight.setPosition(new Vector3f(cam.getLocation()));
@@ -173,7 +199,6 @@ public class Main extends SimpleApplication implements ActionListener{
         if(nifty.getCurrentScreen().getScreenId().equals("OptionScreen")){
             optionController.setEnableRes();
         }
-        
         
     }
 
@@ -189,6 +214,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("Run", new KeyTrigger(KeyInput.KEY_LSHIFT));
+        inputManager.addMapping("Click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
@@ -196,7 +222,22 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Down");
         inputManager.addListener(this, "Jump");
         inputManager.addListener(this, "Run");
+        inputManager.addListener(this, "Click");
+    }
+    
+    public void audioInit(){
+        bgMusic = new AudioNode(assetManager, "Sound/bgMusic.ogg", DataType.Stream);
+        bgMusic.setLooping(true); 
+        bgMusic.setPositional(false);
+        bgMusic.setVolume(1);
+        rootNode.attachChild(bgMusic);
+        if(music) bgMusic.play();
         
+        clickSound = new AudioNode(assetManager, "Sound/click.ogg", DataType.Stream);
+        clickSound.setLooping(false); 
+        clickSound.setPositional(false);
+        clickSound.setVolume(5);
+        rootNode.attachChild(clickSound);
     }
     
     @Override
@@ -211,6 +252,10 @@ public class Main extends SimpleApplication implements ActionListener{
             case "Down": down = isPressed; break;
             
             case "Jump": player.jump(new Vector3f(0,15f,0)); break;
+            
+            case "Run" : run = isPressed; break;
+            
+            case "Click": if(soundEffect)clickSound.play(); break;
             
             default: break;
             

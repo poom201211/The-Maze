@@ -37,30 +37,31 @@ public class OptionController extends AbstractAppState implements ScreenControll
     private int screenWidth;
     private int screenHeight;
             
+    
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
         this.screen = screen; 
     }
-
+    
     @Override
     public void onStartScreen() {
         
+        if(!isFirst){
+            setResolutionList();
+            music = screen.findNiftyControl("music", CheckBox.class);
+            soundEffect = screen.findNiftyControl("soundEffect", CheckBox.class);
+            vSync = screen.findNiftyControl("vSync", CheckBox.class);
+            fullScreen = screen.findNiftyControl("fullScreen", CheckBox.class);
         
-        
-        setResolutionList();
-        
-        music = screen.findNiftyControl("music", CheckBox.class);
-        soundEffect = screen.findNiftyControl("soundEffect", CheckBox.class);
-        vSync = screen.findNiftyControl("vSync", CheckBox.class);
-        fullScreen = screen.findNiftyControl("fullScreen", CheckBox.class);
-        
-        resolution = screen.findNiftyControl("resolution", DropDown.class);
-        anti = screen.findNiftyControl("anti", DropDown.class);
+            resolution = screen.findNiftyControl("resolution", DropDown.class);
+            anti = screen.findNiftyControl("anti", DropDown.class);
        
-        resolution.addAllItems(resolutionList);
-        for (String a : antiList) {
-            anti.addItem(a);
+            resolution.addAllItems(resolutionList);
+            for (String a : antiList) {
+                anti.addItem(a);
+            }
+            isFirst = true;
         }
         boxCheck();
         anti.selectItem(setting.getSamples()+"x");
@@ -87,10 +88,15 @@ public class OptionController extends AbstractAppState implements ScreenControll
     
     public void setSetting(AppSettings setting){
         this.setting = setting;
+        
+    }
+    
+    public void setMute(boolean music, boolean soundEffect){
+        this.musicIsPlay = music;
+        this.soundEffectIsPlay = soundEffect;
     }
     
     public void applySetting(){
-        System.out.println(1);
         AppSettings newSettings = (AppSettings) setting.clone();
         String[] temp = resolution.getSelection().toString().trim().split("x");
         newSettings.put("VSync", vSync.isChecked());
@@ -99,9 +105,11 @@ public class OptionController extends AbstractAppState implements ScreenControll
         newSettings.put("Height", Integer.parseInt(temp[1].trim()));
         String[] antiA = anti.getSelection().toString().trim().split("x");
         newSettings.put("Samples", Integer.parseInt(antiA[0]));
+        main.music = music.isChecked();
+        main.soundEffect = soundEffect.isChecked();
         main.setSettings(newSettings);
         main.restart();
-        
+        main.mainMenu();
     }
     
     public void cancelSetting(){
@@ -152,21 +160,23 @@ public class OptionController extends AbstractAppState implements ScreenControll
     }
     
     private void boxCheck(){
-        if(setting.isVSync())vSync.check();
+        if(musicIsPlay) music.check();
+        if(soundEffectIsPlay) soundEffect.check();
+        if(setting.isVSync()) vSync.check();
         if(setting.isFullscreen()){
             fullScreen.check();
             setEnableRes();
             fullScreenResolutionSet();
         }else{
             String res = "";
-            for(int a = width.size() ; a>=0 ; a--){
+            for(int a = width.size()-1 ; a>=0 ; a--){
                 if(setting.getWidth() == width.get(a)){
                     res += setting.getWidth();
                     res += " x ";
                     break;
                 }
             }
-            for(int a = height.size() ; a>=0 ; a--){
+            for(int a = height.size()-1 ; a>=0 ; a--){
                 if(setting.getHeight() >= height.get(a)){
                     res += setting.getHeight();
                     break;
