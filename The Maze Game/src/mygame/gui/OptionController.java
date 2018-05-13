@@ -36,7 +36,8 @@ public class OptionController extends AbstractAppState implements ScreenControll
     private String[] antiList = {"1x", "2x", "4x", "8x", "16x"};
     private int screenWidth;
     private int screenHeight;
-            
+    private boolean isFirst = false;
+    private boolean musicIsPlay ,soundEffectIsPlay; 
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
