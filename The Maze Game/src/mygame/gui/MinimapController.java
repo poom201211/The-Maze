@@ -19,8 +19,9 @@ import mygame.Main;
 
 
 /**
- *
- * @author poon_
+ * Controller for call map in game
+ * @author Thanapoom Rattanathumawat
+ * @author Poonnanun Poonnopathum
  */
 public class MinimapController extends AbstractAppState implements ScreenController{
 

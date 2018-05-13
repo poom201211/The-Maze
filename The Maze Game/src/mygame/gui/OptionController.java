@@ -19,8 +19,9 @@ import java.util.List;
 import mygame.Main;
 
 /**
- *
- * @author poon_
+ * Controller for option screen
+ * @author Thanapoom Rattanathumawat
+ * @author Poonnanun Poonnopathum
  */
 public class OptionController extends AbstractAppState implements ScreenController {
     

@@ -12,8 +12,9 @@ import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
 
 /**
- *
- * @author poon_
+ * Controller for main menu screen
+ * @author Thanapoom Rattanathumawat
+ * @author Poonnanun Poonnopathum
  */
 public class MainMenuController extends AbstractAppState implements ScreenController{
 
