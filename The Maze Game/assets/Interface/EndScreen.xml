@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui" xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
+    <useControls filename="nifty-default-controls.xml"/>
+    <useStyles filename="nifty-default-styles.xml"/>
+    <screen id="EndScreen" controller="mygame.gui.EndController">
+        <layer id="layer" childLayout="absolute" backgroundImage="Textures/background/main-background.png">
+            <image filename="Textures/background/gameover.png" width="30%" height="20%" x="35%" y="10%"></image>
+            <image filename="Textures/background/tryagain.png" width="30%" height="20%" x="10%" y="60%"><interact onClick="tryagain()"/></image>
+            <image filename="Textures/background/main-menu.png" width="30%" height="20%" x="60%" y="60%"><interact onClick="mainmenu()"/></image>
+        </layer>
+    </screen>
+</nifty>

@@ -8,4 +8,7 @@
         <attributes backgroundColor="#00000000" />
     </style>
     
+    <style id="mapPanel">
+        <attributes backgroundImage="Interface/style/pics/mapPanel.png" />
+    </style>
 </nifty-styles>

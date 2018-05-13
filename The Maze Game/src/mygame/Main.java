@@ -26,8 +26,10 @@ import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Random;
+import mygame.gui.EndController;
 import mygame.gui.GameScreenController;
 import mygame.gui.MainMenuController;
+import mygame.gui.MinimapController;
 import mygame.gui.OptionController;
 
 /**
@@ -42,7 +44,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private RigidBodyControl landscapeWall;
     private CharacterControl player;
     private Vector3f walkDirection = new Vector3f();
-    private boolean left = false, right = false, up = false, down = false, run = false;
+    private boolean left = false, right = false, up = false, down = false, run = false , tab = false;
     
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
@@ -52,14 +54,18 @@ public class Main extends SimpleApplication implements ActionListener{
     private GameScreenController gameScreenController;
     private MainMenuController mainMenuController;
     private OptionController optionController;
+    private MinimapController miniMapController;
+    private EndController endController;
     private Nifty nifty;
     private NiftyJmeDisplay niftyDisplay;
     
     private AudioNode bgMusic;
     private AudioNode clickSound;
     public boolean music = true, soundEffect = true;
+    private String map;
     
-    private boolean start = false;
+    public boolean start = false;
+    private boolean first = true;
     
     
     public static void main(String[] args) {
@@ -67,6 +73,10 @@ public class Main extends SimpleApplication implements ActionListener{
         int screenWidth = (int)screenSize.getWidth();
         int screenHeight = (int)screenSize.getHeight();
         Main app = new Main();
+        
+        
+        
+        app.setDisplayStatView(false);
         
         app.setShowSettings(false);
         AppSettings newSettings = new AppSettings(true);
@@ -89,7 +99,10 @@ public class Main extends SimpleApplication implements ActionListener{
         nifty.addXml("Interface/MainMenu.xml");
         nifty.addXml("Interface/GameScreen.xml");
         nifty.addXml("Interface/OptionScreen.xml");
+        nifty.addXml("Interface/mapScreen.xml");
+        nifty.addXml("Interface/EndScreen.xml");
         nifty.gotoScreen("StartScreen");
+        
         
         guiViewPort.addProcessor(niftyDisplay);
 
@@ -106,51 +119,72 @@ public class Main extends SimpleApplication implements ActionListener{
         optionController.setMain(this);
         optionController.setSetting(this.settings);
         optionController.setMute(music , soundEffect);
+        miniMapController = (MinimapController) nifty.getScreen("MiniMapScreen").getScreenController();
+        miniMapController.setMain(this);
+        endController = (EndController) nifty.getScreen("EndScreen").getScreenController();
+        endController.setMain(this);
+        
+        
     }
+    
+    
     
     public void gameInit(){
 
-        bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        
         inputManager.setCursorVisible(false);
         flyCam.setEnabled(true);
         
+        if(first){
+            bulletAppState = new BulletAppState();
+            stateManager.attach(bulletAppState);
         
         
-        // Generate randomized maze maps
-        String[] mapLocation = new String[3];
-        mapLocation[0] = "Models/Walls/maze walls.j3o";
-        mapLocation[1] = "Models/Walls/maze walls2.j3o";
-        mapLocation[2] = "Models/Walls/maze walls3.j3o";
-        Random random = new Random();
-        walls = assetManager.loadModel(mapLocation[random.nextInt(2)]);
+            // Generate randomized maze maps
+            String[] mapLocation = new String[3];
+            mapLocation[0] = "Models/Walls/maze walls.j3o";
+            mapLocation[1] = "Models/Walls/maze walls2.j3o";
+            mapLocation[2] = "Models/Walls/maze walls3.j3o";
+            String[] miniMap = new String[3];
+            miniMap[0] = "Models/Walls/maze1.png";
+            miniMap[1] = "Models/Walls/maze2.png";
+            miniMap[2] = "Models/Walls/maze3.png";
+            Random random = new Random();
+            int randomMap = random.nextInt(2);
+            walls = assetManager.loadModel(mapLocation[0]);
+            map = miniMap[0];
        
-        // Added class for object collision
-        CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
-        landscapeWall = new RigidBodyControl(sceneWall, 0);
-        walls.addControl(landscapeWall);
        
-        CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-        player = new CharacterControl(capsuleShape, 0.05f);
-        player.setJumpSpeed(20);
-        player.setFallSpeed(30);
-        player.setGravity(new Vector3f(0,-30f,0));
-        player.setPhysicsLocation(new Vector3f(10, 10, 0));
         
-        flashlight = new PointLight(camDir, ColorRGBA.White, 20);
+            // Added class for object collision
+            CollisionShape sceneWall = CollisionShapeFactory.createMeshShape(walls);
+            landscapeWall = new RigidBodyControl(sceneWall, 0);
+            walls.addControl(landscapeWall);
+       
+            CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+            player = new CharacterControl(capsuleShape, 0.05f);
+            player.setJumpSpeed(20);
+            player.setFallSpeed(30);
+            player.setGravity(new Vector3f(0,-30f,0));
+            player.setPhysicsLocation(new Vector3f(10, 10, 0));
+        
+            flashlight = new PointLight(camDir, ColorRGBA.White, 20);
             
-        // Initialize all nodes
-        rootNode.attachChild(walls);
-        rootNode.addLight(flashlight);
-        bulletAppState.getPhysicsSpace().add(landscapeWall);
-        bulletAppState.getPhysicsSpace().add(player);
+            // Initialize all nodes
+            rootNode.attachChild(walls);
+            rootNode.addLight(flashlight);
+            bulletAppState.getPhysicsSpace().add(landscapeWall);
+            bulletAppState.getPhysicsSpace().add(player);
+            first = false;
+        }
         
+        player.setPhysicsLocation(new Vector3f(10, 10, 0));
         start = true;
-        
         nifty.gotoScreen("GameScreen");
-//        gameScreenController.createMinimap(this, walls);
+        
+        
+
     }
+    
     
     public void mainMenu(){
         if(!music)bgMusic.stop();
@@ -165,6 +199,12 @@ public class Main extends SimpleApplication implements ActionListener{
     public void optionInit(){
         optionController.setMute(music , soundEffect);
         nifty.gotoScreen("OptionScreen");
+    }
+    
+    public void endGame(){
+        start = false;
+        flyCam.setEnabled(false);
+        nifty.gotoScreen("EndScreen");
     }
     
     @Override
@@ -186,18 +226,23 @@ public class Main extends SimpleApplication implements ActionListener{
                 walkDirection.addLocal(camDir.negate());
             }
             if (run) {
-                speed = 0.25f;
-                
+                speed = 0.25f;  
             }else{
                 speed = 0.2f;
-             
             }
             player.setWalkDirection(walkDirection);
             cam.setLocation(player.getPhysicsLocation());
+            if(cam.getLocation().getX() >= 120 || cam.getLocation().getX() <= -120) {
+                endGame();
+            }
             flashlight.setPosition(new Vector3f(cam.getLocation()));
+            
+            
         }
-        if(nifty.getCurrentScreen().getScreenId().equals("OptionScreen")){
-            optionController.setEnableRes();
+        if(!start){
+            if(nifty.getCurrentScreen().getScreenId().equals("OptionScreen")){
+                optionController.setEnableRes();
+            }
         }
         
     }
@@ -207,22 +252,38 @@ public class Main extends SimpleApplication implements ActionListener{
         //TODO: add render code
     }
 
+    public void miniMapPop(){
+        if(start){
+           if(!tab) {
+                nifty.gotoScreen("MiniMapScreen");
+                inputManager.setCursorVisible(true);
+                flyCam.setEnabled(false);
+            }else{
+                nifty.gotoScreen("GameScreen");
+                inputManager.setCursorVisible(false);
+                flyCam.setEnabled(true);
+            } 
+        }
+        
+        
+    }
+    
     public void keySet(){
         inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
         inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("Run", new KeyTrigger(KeyInput.KEY_LSHIFT));
         inputManager.addMapping("Click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        inputManager.addMapping("Tab", new KeyTrigger(KeyInput.KEY_TAB));
         
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
         inputManager.addListener(this, "Up");
         inputManager.addListener(this, "Down");
-        inputManager.addListener(this, "Jump");
         inputManager.addListener(this, "Run");
         inputManager.addListener(this, "Click");
+        inputManager.addListener(this, "Tab");
     }
     
     public void audioInit(){
@@ -236,7 +297,7 @@ public class Main extends SimpleApplication implements ActionListener{
         clickSound = new AudioNode(assetManager, "Sound/click.ogg", DataType.Stream);
         clickSound.setLooping(false); 
         clickSound.setPositional(false);
-        clickSound.setVolume(5);
+        clickSound.setVolume(3);
         rootNode.attachChild(clickSound);
     }
     
@@ -251,11 +312,11 @@ public class Main extends SimpleApplication implements ActionListener{
             
             case "Down": down = isPressed; break;
             
-            case "Jump": player.jump(new Vector3f(0,15f,0)); break;
-            
             case "Run" : run = isPressed; break;
             
             case "Click": if(soundEffect)clickSound.play(); break;
+            
+            case "Tab" : miniMapPop(); tab = isPressed; break;
             
             default: break;
             

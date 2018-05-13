@@ -5,32 +5,21 @@
  */
 package mygame.gui;
 
-import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
-import com.jme3.app.state.AppStateManager;
-import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.elements.render.ImageRenderer;
-import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
-
 
 /**
  *
  * @author poon_
  */
-public class MinimapController extends AbstractAppState implements ScreenController{
+public class EndController extends AbstractAppState implements ScreenController{
 
     private Nifty nifty;
     private Screen screen;
     private Main main;
-    
-    public MinimapController(){
-        
-    }
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
@@ -48,14 +37,17 @@ public class MinimapController extends AbstractAppState implements ScreenControl
         
     }
     
-    public void setMain(Main main) {
+    public void setMain(Main main){
         this.main = main;
     }
-    public void giveUp(){
-        main.start = false;
-        main.mainMenu(); 
+    
+    public void tryagain(){
+        System.out.println(1);
+        main.gameInit();
     }
     
+    public void mainmenu(){
+        main.mainMenu();
+    }
     
-        
 }

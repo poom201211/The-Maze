@@ -6,9 +6,14 @@
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/assets/Interface/MainMenu.xml</file>
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/assets/Interface/OptionScreen.xml</file>
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/assets/Interface/style/optionPanel.xml</file>
+            <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/gui/MinimapController.java</file>
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/gui/OptionController.java</file>
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/Main.java</file>
+            <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/assets/Interface/GameScreen.xml</file>
+            <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/assets/Interface/EndScreen.xml</file>
+            <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/gui/GameScreenController.java</file>
             <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/gui/MainMenuController.java</file>
+            <file>file:/D:/workspace/The-Maze/The%20Maze%20Game/src/mygame/gui/EndController.java</file>
         </group>
     </open-files>
 </project-private>

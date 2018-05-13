@@ -10,13 +10,13 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.scene.Spatial;
+import com.jme3.texture.Image;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
-import mygame.MinimapUtil;
 
 /**
  *
@@ -27,6 +27,8 @@ public class GameScreenController extends AbstractAppState implements ScreenCont
     private Main main;
     private Nifty nifty;
     private Screen screen;
+    private String map;
+    private Image mapImage;
     
     public GameScreenController(){
         
@@ -51,11 +53,12 @@ public class GameScreenController extends AbstractAppState implements ScreenCont
     public void setMain(Main main){
         this.main = main;
     }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
     
-    public void createMinimap(SimpleApplication app,Spatial scene) {
-        MinimapUtil.createMiniMap(app, scene, 100, 100);
-//        
-//        NiftyImage map = nifty.getRenderEngine().createImage();
-//        screen.findElementByName("minimap").getRenderer(ImageRenderer.class).setImage(map);
+    public void giveUp(){
+        main.mainMenu();
     }
 }

@@ -3,9 +3,14 @@
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
     <useStyles filename="Interface/style/optionPanel.xml"/>
-    <screen id="GameScreen" controller="mygame.gui.GameScreenController">
-        <layer id="Start" childLayout="absolute">
-            <control name="label" id="GLabel0" width="208px" x="70%" y="95%" text="Press tab to open map." font="aurulent-sans-16.fnt" height="30px"/>
+    <screen id="MiniMapScreen" controller="mygame.gui.MinimapController">
+        <layer id="GLayer0" childLayout="absolute">
+            <panel id="GPanel0" childLayout="absolute" width="80%" x="10%" y="10%" style="mapPanel" height="80%">
+                <image filename="Models/Walls/maze1.png"  width="60%" x="20%" y="10%" height="70%"></image>
+                <image filename="Textures/background/mainmenu.png" width="20%" height="10%" x="70%" y="85%">
+                    <interact onClick="giveUp()" /> 
+                </image>
+            </panel>
         </layer>
     </screen>
 </nifty>
