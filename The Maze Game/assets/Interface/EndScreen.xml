@@ -4,9 +4,9 @@
     <useStyles filename="nifty-default-styles.xml"/>
     <screen id="EndScreen" controller="mygame.gui.EndController">
         <layer id="layer" childLayout="absolute" backgroundImage="Textures/background/main-background.png">
-            <image filename="Textures/background/gameover.png" width="30%" height="20%" x="35%" y="10%"></image>
-            <image filename="Textures/background/tryagain.png" width="30%" height="20%" x="10%" y="60%"><interact onClick="tryagain()"/></image>
-            <image filename="Textures/background/main-menu.png" width="30%" height="20%" x="60%" y="60%"><interact onClick="mainmenu()"/></image>
+            <image filename="Textures/background/gameover.png" childLayout="center" width="30%" height="20%" x="35%" y="10%"></image>
+            <image filename="Textures/background/tryagain.png" childLayout="center" width="30%" height="20%" x="10%" y="60%"><interact onClick="tryagain()"/></image>
+            <image filename="Textures/background/main-menu.png" childLayout="center" width="30%" height="20%" x="60%" y="60%"><interact onClick="mainmenu()"/></image>
         </layer>
     </screen>
 </nifty>
