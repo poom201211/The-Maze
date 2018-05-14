@@ -11,7 +11,7 @@ Extract the zip file then run by clicking on the .jar file.
 
 #### Vision of the Program
 
-ìThe Mazeî is a 3-dimensional gaming program, written in Java. The main idea of the game is for the player to escape the maze, hence the name.  There will be more than just the maze; we will also add monsters, traps, and other bonuses to the game. 
+‚ÄúThe Maze‚Äù is a 3-dimensional gaming program, written in Java. The main idea of the game is for the player to escape the maze, hence the name.  There will be more than just the maze; we will also add monsters, traps, and other bonuses to the game. 
 
 #### Value Proposition
 
@@ -33,4 +33,4 @@ Each of us will be writing test class for each tasks we work on. If you do not f
 
 ![Map Screen](pics/mapforscreen.png)
 
-![Option Screen](picd/option.png)
+![Option Screen](pics/option.png)
