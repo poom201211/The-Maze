@@ -1,9 +1,18 @@
 # The-Maze
 Final Project
 
+#### Download link
+
+Click [Here](https://github.com/poom201211/The-Maze/releases/download/0.1v/The-Maze.rar) to download latest version
+
+#### installation
+
+Extract the zip file then run by clicking on the .jar file.
+We're very sorry about the error in which some mac and linux users will not be able to run the program. (under maintainace)
+
 #### Vision of the Program
 
-ìThe Mazeî is a 3-dimensional gaming program, written in Java. The main idea of the game is for the player to escape the maze, hence the name.  There will be more than just the maze; we will also add monsters, traps, and other bonuses to the game. 
+‚ÄúThe Maze‚Äù is a 3-dimensional gaming program, written in Java. The main idea of the game is for the player to escape the maze, hence the name.  There will be more than just the maze; we will also add monsters, traps, and other bonuses to the game. 
 
 #### Value Proposition
 
@@ -16,3 +25,13 @@ Each of us will be writing test class for each tasks we work on. If you do not f
 **Thanapoom Rattanathumawat** - 6010546672:  Will be responsible for the traps, player control, terrain, bonus boost(Equipments for balancing the game and batteries), sound, and map generator.
 
 **Poonnanun Poonnopathum** - 6010546699: Will be working on the monster AI, models, user interface (such as main menu, minimap, equipment bar, etc.) and animation.
+
+#### Screen Shot
+
+![Front Screen](pics/Front.png)
+
+![Game Screen](pics/inagme.png)
+
+![Map Screen](pics/mapforgame.png)
+
+![Option Screen](pics/option.png)
