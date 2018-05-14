@@ -102,7 +102,7 @@ public class OptionController extends AbstractAppState implements ScreenControll
         AppSettings newSettings = (AppSettings) setting.clone();
         String[] temp = resolution.getSelection().toString().trim().split("x");
         newSettings.put("VSync", vSync.isChecked());
-//        newSettings.setFullscreen(fullScreen.isChecked());
+        newSettings.setFullscreen(fullScreen.isChecked());
         newSettings.put("Width", Integer.parseInt(temp[0].trim()));
         newSettings.put("Height", Integer.parseInt(temp[1].trim()));
         String[] antiA = anti.getSelection().toString().trim().split("x");
@@ -165,11 +165,11 @@ public class OptionController extends AbstractAppState implements ScreenControll
         if(musicIsPlay) music.check();
         if(soundEffectIsPlay) soundEffect.check();
         if(setting.isVSync()) vSync.check();
-//        if(setting.isFullscreen()){
-//            fullScreen.check();
-//            setEnableRes();
-//            fullScreenResolutionSet();
-//        }else{
+        if(setting.isFullscreen()){
+            fullScreen.check();
+            setEnableRes();
+            fullScreenResolutionSet();
+        }else{
             String res = "";
             for(int a = width.size()-1 ; a>=0 ; a--){
                 if(setting.getWidth() == width.get(a)){
@@ -183,7 +183,7 @@ public class OptionController extends AbstractAppState implements ScreenControll
                     res += setting.getHeight();
                     break;
                 }
-//            }
+            }
             
             resolution.selectItem(res);
         }

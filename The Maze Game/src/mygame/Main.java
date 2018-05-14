@@ -82,7 +82,7 @@ public class Main extends SimpleApplication implements ActionListener{
         AppSettings newSettings = new AppSettings(true);
         newSettings.put("Width", screenWidth);
         newSettings.put("Height", screenHeight);
-//        newSettings.setFullscreen(true);
+        newSettings.setFullscreen(true);
         newSettings.put("Title", "The Maze");
         newSettings.put("VSync", true);
         newSettings.put("Samples", 4); // Anti-Aliasing
