@@ -8,6 +8,7 @@ Click [Here](https://github.com/poom201211/The-Maze/releases/download/0.1v/The-M
 #### installation
 
 Extract the zip file then run by clicking on the .jar file.
+We're very sorry about the error in which some mac and linux users will not be able to run the program. (under maintainace)
 
 #### Vision of the Program
 
