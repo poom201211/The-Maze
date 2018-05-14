@@ -27,10 +27,10 @@ Each of us will be writing test class for each tasks we work on. If you do not f
 
 #### Screen Shot
 
-![Front Screen](pics/front.png)
+![Front Screen](pics/Front.png)
 
-![Game Screen](pics/inagame.png)
+![Game Screen](pics/inagme.png)
 
-![Map Screen](pics/mapforscreen.png)
+![Map Screen](pics/mapforgame.png)
 
 ![Option Screen](pics/option.png)
