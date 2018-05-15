@@ -5,7 +5,7 @@ Final Project
 
 ### Download link
 
-Click [Here](https://github.com/poom201211/The-Maze/releases/download/0.1v/The-Maze.rar) to download latest version
+Click [Here](https://github.com/poom201211/The-Maze/releases/download/0.1v/The-Maze.rar) to download latest version.
 
 ### Installation
 
@@ -31,7 +31,7 @@ We thought that this project is worth making because we will be using a program 
 
 ### Presentation link
 
-Click [Here](https://docs.google.com/presentation/d/1vyXEHxs8-Yv_KX1Fx7hvCCIKYz1AnKSqIkqox3PByJ8/edit?usp=sharing)
+Click [Here](https://docs.google.com/presentation/d/1vyXEHxs8-Yv_KX1Fx7hvCCIKYz1AnKSqIkqox3PByJ8/edit?usp=sharing) to access.
 
 ### Participants
 
